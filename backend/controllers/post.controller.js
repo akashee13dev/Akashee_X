@@ -291,9 +291,10 @@ export const likeOrUnLikePost = async(req, res) => {
                     likedPosts: id
                 }
             })
-
-            const notifcation = new Notification({type: 'like', from: user._id, to: post.user});
-            await notifcation.save();
+            if(userId !==  post.user){
+                const notifcation = new Notification({type: 'like', from: user._id, to: post.user});
+                await notifcation.save();
+            }
             return res
                 .status(200)
                 .json({message: "Post Liked successfully"});
